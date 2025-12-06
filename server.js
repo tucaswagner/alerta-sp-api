@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Garante que a pasta uploads exista (Render não cria)
+// Garante que a pasta uploads exista
 const uploadPath = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath);
@@ -27,9 +27,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Rota principal para upload
-// IMPORTANTE: Ajuste "file" se no Kodular você usa outro nome
-app.post("/upload", upload.single("file"), (req, res) => {
+// Rota principal usando o nome do campo do Kodular: "imagem"
+app.post("/upload", upload.single("imagem"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "Nenhum arquivo enviado" });
   }
